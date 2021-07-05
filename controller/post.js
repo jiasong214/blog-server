@@ -46,7 +46,7 @@ export async function updatePost(req, res) {
 }
 
 export async function deletePost(req, res) {
-  const { id } = req.params.id;
+  const { id } = req.params;
   const data = await postRepository.getById(id);
 
   //check if post(id) is exist

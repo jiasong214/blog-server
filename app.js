@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import postRouter from './router/post.js';
 import categoryRouter from './router/category.js';
-// import authRouter from './router/auth.js';
+import authRouter from './router/auth.js';
 
 const app = express();
 
@@ -16,8 +16,8 @@ app.use(cors());
 
 //router
 app.use('/post', postRouter);
+app.use('/auth', authRouter);
 app.use('/category', categoryRouter);
-// app.use('/auth', authRouter);
 
 
 //last error handling
