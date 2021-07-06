@@ -6,11 +6,9 @@ let admin = {
 };
 
 export async function checkByUsername(username) {
-  // return users.find((user) => user.username === username);
   if(username === admin.username) return admin;
 }
 
 export async function checkById(id) {
-  // return users.find((user) => parseInt(user.id) === parseInt(id));
   if(parseInt(id) === parseInt(admin.id)) return admin;
 }

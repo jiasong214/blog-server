@@ -1,12 +1,14 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import * as userRepository from '../data/auth.js';
+import { config } from '../config.js';
+
 
 function createJwtToken(id) {
   return jwt.sign(
     { id }, 
-    "F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z", 
-    { expiresIn: 86400 }
+    config.jwt.secretKey, 
+    { expiresIn: config.jwt.expiresInSec }
   );
 }
 

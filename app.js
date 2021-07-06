@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-
-
 import postRouter from './router/post.js';
 import categoryRouter from './router/category.js';
 import authRouter from './router/auth.js';
+import { config } from './config.js';
 
 const app = express();
 
@@ -32,4 +31,4 @@ app.use((err, req, res, next) => {
 
 
 //server
-app.listen(8080);
+app.listen(config.host.port);
