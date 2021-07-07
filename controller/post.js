@@ -63,5 +63,7 @@ export async function getCategories(req, res) {
 
   if(!data) res.status(404).json({ message: "Can't get category list" });
   res.status(200).json(data);
+
+  console.log(data);
 }
 

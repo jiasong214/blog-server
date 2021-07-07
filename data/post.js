@@ -1,77 +1,88 @@
-let posts = [
-  {
-    "id": 1,
-    "category": ["react"],
-    "title": "This is first post",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur orci a metus pharetra rutrum. Etiam condimentum magna sed imperdiet scelerisque. Quisque tristique, elit sit amet posuere eleifend, augue dolor malesuada elit, a ornare lectus odio a tellus. Cras consequat non nisi non rhoncus. Nam ac libero a elit elementum efficitur. Sed suscipit vulputate vehicula.",
-    "createAt": new Date().toString()
+import SQ from 'sequelize';
+import { sequelize } from '../db/database.js';
+
+const dataTypes = SQ.DataTypes;
+
+//create posts table, and define schema
+const Post = sequelize.define('post', {
+  id: {
+    type: dataTypes.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
   },
-  {
-    "id": 2,
-    "category": ["react", "javascript"],
-    "title": "This is second post",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur orci a metus pharetra rutrum. Etiam condimentum magna sed imperdiet scelerisque. Quisque tristique, elit sit amet posuere eleifend, augue dolor malesuada elit, a ornare lectus odio a tellus. Cras consequat non nisi non rhoncus. Nam ac libero a elit elementum efficitur. Sed suscipit vulputate vehicula.",
-    "createAt": new Date().toString()
+  category: {
+    type: dataTypes.STRING(128),
+    allowNull: true,
   },
-  {
-    "id": 3,
-    "category": ["react", "javascript", "node"],
-    "title": "This is third post",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur orci a metus pharetra rutrum. Etiam condimentum magna sed imperdiet scelerisque. Quisque tristique, elit sit amet posuere eleifend, augue dolor malesuada elit, a ornare lectus odio a tellus. Cras consequat non nisi non rhoncus. Nam ac libero a elit elementum efficitur. Sed suscipit vulputate vehicula.",
-    "createAt": new Date().toString()
+  title: { 
+    type: dataTypes.STRING(128),
+    allowNull: false,
+  },
+  text: {
+    type: dataTypes.TEXT,
+    allowNull: false,
   }
-]
+});
+
 
 export async function getAll() {
-  return posts;
+  return Post.findAll({
+    order: [['createdAt', 'DESC']],
+  });
 }
 
 export async function getByCategory(category) {
-  return posts.filter(post => post.category.includes(category));
+  return Post.findAll({
+    where: { category },
+    order: [['createdAt', 'DESC']],
+  });
 }
 
 export async function getById(id) {
-  return posts.filter((post) => parseInt(post.id) === parseInt(id));
+  return Post.findOne({
+    where: { id },
+    order: [['createdAt', 'DESC']],
+  });
 }
 
 export async function create(category, title, text) {
-  const post = {
-    id: Date.now().toString(),
-    category,
-    title,
-    text,
-    createdAt: new Date().toString(),
-  }
-
-  posts = [post, ...posts];
-  return post;
+  return Post.create({category, title, text});
 }
 
 export async function update(id, category, title, text) {
-  let post = posts.find((post) => parseInt(post.id) === parseInt(id));
-
-  if (post) {
-    post.category = category;
-    post.title = title;
-    post.text = text;
-  }
-
-  return post;
+  return Post.findByPk(id)
+    .then((post) => post.update({ category, title, text }));
 }
 
 export async function remove(id) {
-  posts = posts.filter((post) => parseInt(post.id) !== parseInt(id));
+  return Post.destroy({ where: { id } });
 }
 
 export async function getCategories() {
   const categoryArr = [];
 
-  posts.forEach((post) => {
-    post.category.forEach((eachCategory) => {
-      if(categoryArr.includes(eachCategory)) return;
-      categoryArr.push(eachCategory);
+  //get all posts category string
+  const categoryDB = await Post.findAll({
+    attributes: [ 'category' ],
+  });
+
+  categoryDB.forEach((colum) => {
+    const columsCategoryStr = [];
+    //make a array with all colums category data
+    if(colum.category !== null) columsCategoryStr.push(colum.category);
+
+    columsCategoryStr.forEach((categoryStr) => {
+      //make a array with every categories that each colum has
+      const categories = categoryStr.split(',');
+      //and push items in array to result array
+      categories.forEach((category) => {
+        if(category === '' || categoryArr.includes(category)) return;
+        categoryArr.push(category);
+      })
     })
   });
+
 
   return categoryArr;
 }

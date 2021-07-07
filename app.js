@@ -4,6 +4,7 @@ import postRouter from './router/post.js';
 import categoryRouter from './router/category.js';
 import authRouter from './router/auth.js';
 import { config } from './config.js';
+import { sequelize } from './db/database.js';
 
 const app = express();
 
@@ -29,6 +30,6 @@ app.use((err, req, res, next) => {
   res.sendStatus(500);
 });
 
-
-//server
-app.listen(config.host.port);
+//connect to database, then start server
+sequelize.sync()
+  .then(app.listen(config.host.port));
