@@ -15,17 +15,9 @@ export async function getPostById(req, res) {
   res.status(200).json(data);
 }
 
-export async function getPostsByCategory(req, res) {
-  const { category } = req.params;
-  const data = await postRepository.getByCategory(category);
-
-  if (!data) res.status(404).json({ message: "Can't get post with category" });
-  res.status(200).json(data);
-}
-
 export async function createPost(req, res) {
-  const { category, title, text } = req.body;
-  const data = await postRepository.create(category, title, text);
+  const { title, subtitle, text } = req.body;
+  const data = await postRepository.create(title, subtitle, text);
 
   if (!data) res.status(404).json({ message: "Can't create new post" });
   // if() res.sendStatus(403);
@@ -34,12 +26,12 @@ export async function createPost(req, res) {
 
 export async function updatePost(req, res) {
   const { id } = req.params;
-  const { category, title, text } = req.body;
+  const { title, subtitle, text } = req.body;
   const data = await postRepository.getById(id);
 
   if (!data) res.status(404).json({ message: "Can't find this post" });
 
-  const updatedPost = await postRepository.update(id, category, title, text);
+  const updatedPost = await postRepository.update(id, title, subtitle, text);
 
   // if() res.sendStatus(403);
   res.status(200).send(updatedPost);
@@ -56,14 +48,5 @@ export async function deletePost(req, res) {
 
   // if() res.sendStatus(403);
   res.sendStatus(204);
-}
-
-export async function getCategories(req, res) {
-  const data = await postRepository.getCategories();
-
-  if(!data) res.status(404).json({ message: "Can't get category list" });
-  res.status(200).json(data);
-
-  console.log(data);
 }
 

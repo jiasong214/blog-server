@@ -7,7 +7,6 @@ const router = express.Router();
 //public api
 router.get('/', postController.getPosts);
 router.get('/:id', postController.getPostById);
-router.get('/category/:category', postController.getPostsByCategory);
 
 //admin api
 router.post('/', isAuth, postController.createPost);
