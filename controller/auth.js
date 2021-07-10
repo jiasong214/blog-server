@@ -40,6 +40,11 @@ export async function login(req, res) {
   res.status(200).json({ token });
 }
 
+export async function logout(req, res) {
+  res.cookie('token', '');
+  res.status(200).json({ message: 'User has been logged out' });
+}
+
 //to check authorization
 export async function me(req, res) {
   //check if user id is matched

@@ -5,6 +5,7 @@ import { isAuth } from '../middleware/auth.js';
 const router = express.Router();
 
 router.post('/login', authController.login);
+router.post('/logout', authController.logout);
 router.get('/me', isAuth, authController.me);
 
 
