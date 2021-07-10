@@ -30,6 +30,14 @@ export async function login(req, res) {
 
   //if everything was okay, create a token, send it to client
   const token = createJwtToken(user.id);
+  //send cookie for web
+  res.cookie('token', token, {
+    maxAge: config.jwt.expiresInSec * 1000,
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true
+  });
+  //send json for mobile
   res.status(200).json({ token, username });
 }
 

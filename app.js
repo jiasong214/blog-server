@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import postRouter from './router/post.js';
 import authRouter from './router/auth.js';
@@ -7,10 +8,17 @@ import { sequelize } from './db/database.js';
 
 const app = express();
 
+//cors option
+const corsOption = {
+  origin: config.cors.allowedOrigin,
+  optionSuccessStatus: 200,
+  credentials: true, //for cookie
+}
 
 //middleware
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors(corsOption));
 
 
 //router
