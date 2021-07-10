@@ -33,11 +33,11 @@ export const isAuth = async (req, res, next) => {
       if (error) res.status(401).json({ message: 'Authentication Error' });
 
       //check if user is exist
-      const user = await userRepository.checkById(decoded.id);
+      const user = await userRepository.checkByUsername(decoded.username);
       if (!user) res.status(401).json({ message: 'Authentication Error' });
 
-      //if everything was okay, ???
-      req.userId = user.id; // req.customData
+      //if everything was okay, send username and token with custom req
+      req.username = user.username;
       req.token = token;
 
       next();

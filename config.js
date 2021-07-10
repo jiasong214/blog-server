@@ -28,4 +28,8 @@ export const config = {
   bcrypt: {
     saltRounds: parseInt(required('BCRYPT_SALT_ROUNDS', 12)),
   },
+  admin: {
+    username: required('ADMIN_USERNAME'),
+    password: required('ADMIN_PASSWORD'),
+  }
 };

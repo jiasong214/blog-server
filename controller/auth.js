@@ -4,14 +4,13 @@ import * as userRepository from '../data/auth.js';
 import { config } from '../config.js';
 
 
-function createJwtToken(id) {
+function createJwtToken(username) {
   return jwt.sign(
-    { id }, 
+    { username }, 
     config.jwt.secretKey, 
     { expiresIn: config.jwt.expiresInSec }
   );
 }
-
 
 export async function login(req, res) {
   const { username, password } = req.body;
@@ -29,7 +28,7 @@ export async function login(req, res) {
   }
 
   //if everything was okay, create a token, send it to client
-  const token = createJwtToken(user.id);
+  const token = createJwtToken(user.username);
   //send cookie for web
   res.cookie('token', token, {
     maxAge: config.jwt.expiresInSec * 1000,
@@ -38,17 +37,17 @@ export async function login(req, res) {
     secure: true
   });
   //send json for mobile
-  res.status(200).json({ token, username });
+  res.status(200).json({ token });
 }
 
 //to check authorization
 export async function me(req, res) {
   //check if user id is matched
-  const user = await userRepository.checkById(req.userId);
+  const user = await userRepository.checkByUsername(req.username);
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }
 
-  //if there is the user, send a token and username
-  res.status(200).json({ token: req.token, username: user.username });
+  //if there is the user, send a token
+  res.status(200).json({ token: req.token  });
 }

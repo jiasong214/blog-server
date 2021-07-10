@@ -20,7 +20,6 @@ export async function createPost(req, res) {
   const data = await postRepository.create(title, subtitle, text);
 
   if (!data) res.status(404).json({ message: "Can't create new post" });
-  // if() res.sendStatus(403);
   res.status(200).json(data);
 }
 
@@ -33,7 +32,6 @@ export async function updatePost(req, res) {
 
   const updatedPost = await postRepository.update(id, title, subtitle, text);
 
-  // if() res.sendStatus(403);
   res.status(200).send(updatedPost);
 }
 
@@ -43,10 +41,8 @@ export async function deletePost(req, res) {
 
   //check if post(id) is exist
   if (!data) res.status(404).json({ message: "Can't find this post" });
-
   await postRepository.remove(id);
 
-  // if() res.sendStatus(403);
   res.sendStatus(204);
 }
 
