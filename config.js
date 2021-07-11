@@ -17,6 +17,7 @@ export const config = {
   },
   db: {
     host: required('DB_HOST'),
+    port: required('DB_PORT'),
     user: required('DB_USER'),
     database: required('DB_DATABASE'),
     password: required('DB_PASSWORD'),
@@ -24,9 +25,6 @@ export const config = {
   jwt: {
     secretKey: required('JWT_SECRET'),
     expiresInSec: parseInt(required('JWT_EXPIRES_SEC', 86400)),
-  },
-  bcrypt: {
-    saltRounds: parseInt(required('BCRYPT_SALT_ROUNDS', 12)),
   },
   admin: {
     username: required('ADMIN_USERNAME'),

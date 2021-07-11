@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import * as userRepository from '../data/auth.js';
 import { config } from '../config.js';
 
@@ -22,7 +21,7 @@ export async function login(req, res) {
   }
 
   //check if password is matched
-  const isValidPassword = await bcrypt.compare(password, user.password);
+  const isValidPassword = password === user.password;
   if (!isValidPassword) {
     return res.status(401).json({ message: 'Invalid user or password' });
   }
