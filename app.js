@@ -10,7 +10,7 @@ const app = express();
 
 //cors option
 const corsOption = {
-  origin: 'https://jiasong214.github.io',
+  origin: config.cors.allowedOrigin,
   optionSuccessStatus: 200,
   credentials: true, //for cookie
 }
