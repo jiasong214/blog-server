@@ -38,4 +38,4 @@ app.use((err, req, res, next) => {
 
 //connect to database, then start server
 sequelize.sync()
-  .then(app.listen(config.host.port));
+  .then(app.listen(config.host.port || 8080));
