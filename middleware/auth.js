@@ -25,10 +25,7 @@ export const isAuth = async (req, res, next) => {
   }
 
   // veryfy token
-  jwt.verify(
-    token, 
-    config.jwt.secretKey, 
-    async (error, decoded) => {
+  jwt.verify(token, config.jwt.secretKey, async (error, decoded) => {
       //check error
       if (error) res.status(401).json({ message: 'Authentication Error' });
 

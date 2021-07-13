@@ -32,15 +32,18 @@ export async function login(req, res) {
   res.cookie('token', token, {
     maxAge: config.jwt.expiresInSec * 1000,
     httpOnly: true,
-    sameSite: 'none',
-    secure: true
+    sameSite: 'None',
+    secure: true,
   });
   //send json for mobile
   res.status(200).json({ token });
 }
 
 export async function logout(req, res) {
-  res.cookie('token', '');
+  res.cookie('token', '', {
+    sameSite: 'None',
+    secure: true,
+  });
   res.status(200).json({ message: 'User has been logged out' });
 }
 
