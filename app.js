@@ -22,7 +22,7 @@ app.use(cors(corsOption));
 
 
 //router
-app.use('/post', postRouter);
+app.use('/posts', postRouter);
 app.use('/auth', authRouter);
 
 
