@@ -17,7 +17,7 @@ export const config = {
   },
   db: {
     host: required('DB_HOST'),
-    port: required('DB_PORT'),
+    port: required('DB_PORT', ''),
     user: required('DB_USER'),
     database: required('DB_DATABASE'),
     password: required('DB_PASSWORD'),

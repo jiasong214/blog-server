@@ -7,7 +7,6 @@ export const sequelize = new SQ.Sequelize(database, user, password, {
   host,
   port,
   dialect: 'postgres',
-  // dialect: 'mysql',
   logging: false,
   dialectOptions: {
     ssl: {
@@ -15,4 +14,5 @@ export const sequelize = new SQ.Sequelize(database, user, password, {
       rejectUnauthorized: false,
     }
   }
+  // dialect: 'mysql',
 });

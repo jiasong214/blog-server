@@ -16,8 +16,8 @@ export async function getPostById(req, res) {
 }
 
 export async function createPost(req, res) {
-  const { title, subtitle, text } = req.body;
-  const data = await postRepository.create(title, subtitle, text);
+  const { title, text } = req.body;
+  const data = await postRepository.create(title, text);
 
   if (!data) res.status(404).json({ message: "Can't create new post" });
   res.status(200).json(data);
@@ -25,12 +25,12 @@ export async function createPost(req, res) {
 
 export async function updatePost(req, res) {
   const { id } = req.params;
-  const { title, subtitle, text } = req.body;
+  const { title, text } = req.body;
   const data = await postRepository.getById(id);
 
   if (!data) res.status(404).json({ message: "Can't find this post" });
 
-  const updatedPost = await postRepository.update(id, title, subtitle, text);
+  const updatedPost = await postRepository.update(id, title, text);
 
   res.status(200).send(updatedPost);
 }

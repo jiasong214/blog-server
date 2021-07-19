@@ -15,10 +15,6 @@ const Post = sequelize.define('post', {
     type: dataTypes.STRING(128),
     allowNull: false,
   },
-  subtitle: {
-    type: dataTypes.TEXT,
-    allowNull: true,
-  },
   text: {
     type: dataTypes.TEXT,
     allowNull: false,
@@ -39,13 +35,13 @@ export async function getById(id) {
   });
 }
 
-export async function create(title, subtitle, text) {
-  return Post.create({ title, subtitle, text});
+export async function create(title, text) {
+  return Post.create({ title, text });
 }
 
-export async function update(id, title, subtitle, text) {
+export async function update(id, title, text) {
   return Post.findByPk(id)
-    .then((post) => post.update({ title, subtitle, text }));
+    .then((post) => post.update({ title, text }));
 }
 
 export async function remove(id) {
